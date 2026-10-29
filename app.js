@@ -14,6 +14,7 @@ const $ = (id) => document.getElementById(id);
 let viewYear, viewMonth; // viewMonth: 1-12
 let editingId = null;
 let appReady = false;
+let currentUser = null; // 当前登录用户（含 email）
 
 // ---------- 工具 ----------
 function pad(n) { return n < 10 ? "0" + n : "" + n; }
@@ -99,13 +100,13 @@ function initApp() {
 
 // 登录态变化时自动切换界面
 sb.auth.onAuthStateChange((_event, session) => {
-  if (session && session.user) enterApp();
-  else showAuth();
+  if (session && session.user) { currentUser = session.user; enterApp(); }
+  else { currentUser = null; showAuth(); }
 });
 
 // 启动：根据当前会话决定显示登录框还是应用
 sb.auth.getSession().then(({ data }) => {
-  if (data.session && data.session.user) enterApp();
+  if (data.session && data.session.user) { currentUser = data.session.user; enterApp(); }
   else showAuth();
 });
 
@@ -157,6 +158,7 @@ function renderRow(r) {
         `<option ${c === r.category ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></td>
       <td class="num"><input type="number" step="0.01" min="0.01" class="e_amount" value="${esc(r.amount)}"></td>
       <td class="desc"><input type="text" class="e_desc" value="${esc(r.description)}"></td>
+      <td>${esc(r.last_editor || "")}</td>
       <td><span class="actions"><button class="save" title="保存" aria-label="保存">${ICON_CHECK}</button><button class="cancel" title="取消" aria-label="取消">${ICON_CLOSE}</button></span></td>`;
     tr.querySelector(".save").onclick = () => onSave(r, tr);
     tr.querySelector(".cancel").onclick = () => { editingId = null; loadMonth(); };
@@ -166,6 +168,7 @@ function renderRow(r) {
       <td>${esc(r.category)}</td>
       <td class="num">${Number(r.amount).toFixed(2)}</td>
       <td class="desc">${esc(r.description)}</td>
+      <td>${esc(r.last_editor || "")}</td>
       <td><span class="actions">${
         isLocked(r.transaction_date)
           ? `<span class="lock" title="三天前的数据不可修改">已锁定</span>`
@@ -187,6 +190,7 @@ async function onAdd(e) {
     category: $("f_category").value,
     description: $("f_desc").value.trim() || null,
     transaction_date: $("f_date").value,
+    last_editor: currentUser ? currentUser.email : null,
   };
   const { error } = await sb.from("transactions").insert(payload);
   if (error) { alert("添加失败：" + error.message); return; }
@@ -209,6 +213,7 @@ async function onSave(r, tr) {
     category: tr.querySelector(".e_category").value,
     description: tr.querySelector(".e_desc").value.trim() || null,
     transaction_date: tr.querySelector(".e_date").value,
+    last_editor: currentUser ? currentUser.email : null,
   };
   const { error } = await sb.from("transactions").update(payload).eq("id", r.id);
   if (error) { alert("保存失败：" + error.message); return; }

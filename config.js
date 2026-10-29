@@ -17,6 +17,7 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 //    category character varying(10) null,
 //    description text null,
 //    transaction_date date not null default CURRENT_DATE,
+//    last_editor character varying(255) null,
 //    created_at timestamptz null default now(),
 //    constraint transactions_pkey primary key (id)
 //  );
