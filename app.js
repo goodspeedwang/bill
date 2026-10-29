@@ -1,7 +1,8 @@
 // 记账本 —— 纯静态前端 + Supabase Auth（邮箱密码），依赖 config.js
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const CATEGORIES = ["餐饮", "交通", "购物", "居住", "娱乐", "医疗", "教育", "工资", "其他"];
+const CATEGORIES = ["交通", "图书", "超市/买菜/水果", "餐饮", "衣服鞋包", "药品", "文具", "电影", "快递费", "日用品", "停车/洗车", "礼品", "学校餐费", "零花", "充电"];
+
 
 // 操作列图标（SVG，省空间且跨平台一致）
 const ICON_EDIT = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
@@ -24,6 +25,18 @@ function esc(s) {
   return (s == null ? "" : String(s)).replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
   );
+}
+
+// 距离今天多少天（以本地日期 00:00 计算）
+function daysAgo(dateStr) {
+  const d = new Date(dateStr + "T00:00:00");
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.floor((today - d) / 86400000);
+}
+// 三天前（含）及更早的数据视为已锁定，不允许修改/删除
+function isLocked(dateStr) {
+  return daysAgo(dateStr) >= 3;
 }
 
 // ---------- 认证（用户由 Supabase 后台手动创建，这里只登录）----------
@@ -68,6 +81,9 @@ function initApp() {
     o.value = c; o.textContent = c;
     sel.appendChild(o);
   });
+  const savedCat = localStorage.getItem("lastCategory");
+  if (savedCat && CATEGORIES.includes(savedCat)) sel.value = savedCat;
+  sel.addEventListener("change", () => localStorage.setItem("lastCategory", sel.value));
   $("f_date").value = todayStr();
 
   const now = new Date();
@@ -142,7 +158,7 @@ function renderRow(r) {
       <td class="num"><input type="number" step="0.01" min="0.01" class="e_amount" value="${esc(r.amount)}"></td>
       <td class="desc"><input type="text" class="e_desc" value="${esc(r.description)}"></td>
       <td><span class="actions"><button class="save" title="保存" aria-label="保存">${ICON_CHECK}</button><button class="cancel" title="取消" aria-label="取消">${ICON_CLOSE}</button></span></td>`;
-    tr.querySelector(".save").onclick = () => onSave(r.id, tr);
+    tr.querySelector(".save").onclick = () => onSave(r, tr);
     tr.querySelector(".cancel").onclick = () => { editingId = null; loadMonth(); };
   } else {
     tr.innerHTML = `
@@ -150,9 +166,15 @@ function renderRow(r) {
       <td>${esc(r.category)}</td>
       <td class="num">${Number(r.amount).toFixed(2)}</td>
       <td class="desc">${esc(r.description)}</td>
-      <td><span class="actions"><button class="edit" title="编辑" aria-label="编辑">${ICON_EDIT}</button><button class="del" title="删除" aria-label="删除">${ICON_DEL}</button></span></td>`;
-    tr.querySelector(".edit").onclick = () => { editingId = r.id; loadMonth(); };
-    tr.querySelector(".del").onclick = () => onDelete(r.id);
+      <td><span class="actions">${
+        isLocked(r.transaction_date)
+          ? `<span class="lock" title="三天前的数据不可修改">已锁定</span>`
+          : `<button class="edit" title="编辑" aria-label="编辑">${ICON_EDIT}</button><button class="del" title="删除" aria-label="删除">${ICON_DEL}</button>`
+      }</span></td>`;
+    if (!isLocked(r.transaction_date)) {
+      tr.querySelector(".edit").onclick = () => { editingId = r.id; loadMonth(); };
+      tr.querySelector(".del").onclick = () => onDelete(r);
+    }
   }
   return tr;
 }
@@ -168,28 +190,39 @@ async function onAdd(e) {
   };
   const { error } = await sb.from("transactions").insert(payload);
   if (error) { alert("添加失败：" + error.message); return; }
+  localStorage.setItem("lastCategory", payload.category);
   $("f_amount").value = "";
   $("f_desc").value = "";
   $("f_date").value = todayStr();
   loadMonth();
 }
 
-async function onSave(id, tr) {
+async function onSave(r, tr) {
+  if (isLocked(r.transaction_date)) {
+    alert("三天前的数据不允许修改。");
+    editingId = null;
+    loadMonth();
+    return;
+  }
   const payload = {
     amount: parseFloat(tr.querySelector(".e_amount").value),
     category: tr.querySelector(".e_category").value,
     description: tr.querySelector(".e_desc").value.trim() || null,
     transaction_date: tr.querySelector(".e_date").value,
   };
-  const { error } = await sb.from("transactions").update(payload).eq("id", id);
+  const { error } = await sb.from("transactions").update(payload).eq("id", r.id);
   if (error) { alert("保存失败：" + error.message); return; }
   editingId = null;
   loadMonth();
 }
 
-async function onDelete(id) {
+async function onDelete(r) {
+  if (isLocked(r.transaction_date)) {
+    alert("三天前的数据不允许修改。");
+    return;
+  }
   if (!confirm("确定删除这笔记录？")) return;
-  const { error } = await sb.from("transactions").delete().eq("id", id);
+  const { error } = await sb.from("transactions").delete().eq("id", r.id);
   if (error) { alert("删除失败：" + error.message); return; }
   loadMonth();
 }

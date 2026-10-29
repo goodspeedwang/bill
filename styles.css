@@ -86,6 +86,7 @@ body {
 
 /* 操作列：图标按钮成组，间距由 gap 控制 */
 .txn-table .actions { display: inline-flex; align-items: center; gap: 2px; }
+.txn-table .lock { color: #b0b0b0; font-size: 13px; cursor: not-allowed; user-select: none; }
 .txn-table th:last-child, .txn-table td:last-child { white-space: nowrap; }
 
 button.edit, button.del, button.save, button.cancel {
