@@ -140,8 +140,8 @@ function renderRow(r) {
       <td><select class="e_category">${CATEGORIES.map((c) =>
         `<option ${c === r.category ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></td>
       <td class="num"><input type="number" step="0.01" min="0.01" class="e_amount" value="${esc(r.amount)}"></td>
-      <td><input type="text" class="e_desc" value="${esc(r.description)}"></td>
-      <td><button class="save" title="保存" aria-label="保存">${ICON_CHECK}</button><button class="cancel" title="取消" aria-label="取消">${ICON_CLOSE}</button></td>`;
+      <td class="desc"><input type="text" class="e_desc" value="${esc(r.description)}"></td>
+      <td><span class="actions"><button class="save" title="保存" aria-label="保存">${ICON_CHECK}</button><button class="cancel" title="取消" aria-label="取消">${ICON_CLOSE}</button></span></td>`;
     tr.querySelector(".save").onclick = () => onSave(r.id, tr);
     tr.querySelector(".cancel").onclick = () => { editingId = null; loadMonth(); };
   } else {
@@ -150,7 +150,7 @@ function renderRow(r) {
       <td>${esc(r.category)}</td>
       <td class="num">${Number(r.amount).toFixed(2)}</td>
       <td class="desc">${esc(r.description)}</td>
-      <td><button class="edit" title="编辑" aria-label="编辑">${ICON_EDIT}</button><button class="del" title="删除" aria-label="删除">${ICON_DEL}</button></td>`;
+      <td><span class="actions"><button class="edit" title="编辑" aria-label="编辑">${ICON_EDIT}</button><button class="del" title="删除" aria-label="删除">${ICON_DEL}</button></span></td>`;
     tr.querySelector(".edit").onclick = () => { editingId = r.id; loadMonth(); };
     tr.querySelector(".del").onclick = () => onDelete(r.id);
   }
