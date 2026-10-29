@@ -23,10 +23,11 @@
 | 文件 | 说明 |
 | --- | --- |
 | `index.html` | 页面结构（登录框 + 主应用） |
-| `styles.css` | 样式 |
-| `app.js` | 认证、月份导航、记录的增删改与渲染 |
-| `config.js` | Supabase 连接配置与安全模型说明（需自行修改） |
-| `make_favorite_ico.py` | 生成站点图标 `favorite.ico`（金色五角星）的脚本 |
+| `static/` | 静态资源目录 |
+| `static/styles.css` | 样式 |
+| `static/app.js` | 认证、月份导航、记录的增删改与渲染 |
+| `static/config.js` | Supabase 连接配置与安全模型说明（需自行修改） |
+| `favicon.ico` | 站点图标（金色五角星） |
 | `CNAME` | 自定义域名（GitHub Pages 部署用） |
 
 ## 本地运行
@@ -89,4 +90,4 @@ pip install pillow
 python3 make_favorite_ico.py
 ```
 
-会生成多尺寸的 `favorite.ico`（金色五角星）。
+会生成多尺寸的 `static/favicon.ico`（金色五角星）。
