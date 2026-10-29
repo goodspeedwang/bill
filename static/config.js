@@ -14,7 +14,7 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 //  create table if not exists public.transactions (
 //    id uuid not null default gen_random_uuid(),
 //    amount numeric(12,2) not null,
-//    category character varying(10) null,
+//    category character varying(10) not null,
 //    description text null,
 //    transaction_date date not null default CURRENT_DATE,
 //    last_editor character varying(255) null,

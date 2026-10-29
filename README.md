@@ -2,7 +2,7 @@
 
 一个纯静态的前端记账应用，使用 [Supabase](https://supabase.com/) 提供邮箱密码登录与数据持久化。无需后端，部署即可用。
 
-线上地址：https://bill.4480911.xyz
+线上地址：[https://bill.4480911.xyz/](https://bill.4480911.xyz/)
 
 ## 功能
 
@@ -50,7 +50,7 @@ python3 -m http.server 8000
    create table if not exists public.transactions (
      id uuid not null default gen_random_uuid(),
      amount numeric(12,2) not null,
-     category character varying(10) null,
+     category character varying(10) not null,
      description text null,
      transaction_date date not null default CURRENT_DATE,
      created_at timestamptz null default now(),
@@ -82,12 +82,3 @@ python3 -m http.server 8000
 
 本仓库包含一个 `CNAME`（指向 `bill.4480911.xyz`），可直接作为 GitHub Pages 的自定义域名部署。
 将仓库内容推送到 GitHub 并在 Pages 设置中启用即可。
-
-## 生成站点图标（可选）
-
-```bash
-pip install pillow
-python3 make_favorite_ico.py
-```
-
-会生成多尺寸的 `static/favicon.ico`（金色五角星）。
