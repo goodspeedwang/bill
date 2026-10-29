@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>记账本</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <!-- 登录（用户由后台手动创建）-->
+  <div id="auth" class="gate">
+    <div class="gate-box">
+      <h1>记账本</h1>
+      <input id="email" type="email" placeholder="邮箱" autocomplete="email" />
+      <input id="password" type="password" placeholder="密码" autocomplete="current-password" />
+      <button id="authBtn" class="primary">登录</button>
+      <p id="authMsg" class="err"></p>
+    </div>
+  </div>
+
+  <!-- 主应用 -->
+  <div id="app" class="app hidden">
+    <header class="topbar">
+      <div class="month-nav">
+        <button id="prevMonth" aria-label="上一月">‹</button>
+        <span id="monthLabel"></span>
+        <button id="nextMonth" aria-label="下一月">›</button>
+      </div>
+      <div class="summary">本月合计：<span id="monthTotal">0.00</span></div>
+      <div class="user">
+        <span id="userEmail" class="user-email"></span>
+        <button id="logoutBtn" class="link">退出</button>
+      </div>
+    </header>
+
+    <table class="txn-table">
+      <thead>
+        <tr>
+          <th>日期</th>
+          <th>分类</th>
+          <th class="num">金额</th>
+          <th>说明</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="txnBody"></tbody>
+    </table>
+    <p id="emptyHint" class="empty hidden">本月还没有记录，在下面添加第一笔吧。</p>
+
+    <form id="addForm" class="add-form">
+      <h2>新增一笔</h2>
+      <div class="row">
+        <input type="date" id="f_date" required title="日期" />
+        <select id="f_category" required title="分类"></select>
+        <input type="number" id="f_amount" step="0.01" min="0.01" placeholder="金额" required title="金额" />
+        <input type="text" id="f_desc" placeholder="说明（可选）" />
+        <button type="submit" class="primary">添加</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

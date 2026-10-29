@@ -1,0 +1,120 @@
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --text: #1f2329;
+  --muted: #8a9099;
+  --border: #e6e8eb;
+  --primary: #2f6fed;
+  --primary-d: #2559c4;
+  --danger: #e0524b;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.hidden { display: none !important; }
+
+/* 门禁 */
+.gate {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+}
+.gate-box {
+  background: var(--card);
+  padding: 36px 32px;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+  text-align: center;
+  width: 300px;
+}
+.gate-box h1 { margin: 0 0 18px; font-size: 22px; }
+.gate-box input {
+  width: 100%; padding: 10px 12px; font-size: 15px;
+  border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px;
+}
+.gate-box button.primary {
+  width: 100%; padding: 10px; font-size: 15px;
+  background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer;
+}
+.gate-box button.primary:hover { background: var(--primary-d); }
+.err { color: var(--danger); font-size: 13px; min-height: 16px; margin: 8px 0 0; }
+
+/* 主应用 */
+.app { max-width: 760px; margin: 0 auto; padding: 20px 16px 48px; }
+
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--card); padding: 14px 18px; border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05); margin-bottom: 16px;
+}
+.month-nav { display: flex; align-items: center; gap: 14px; font-size: 17px; font-weight: 600; }
+.month-nav button {
+  width: 32px; height: 32px; border: 1px solid var(--border); background: #fff;
+  border-radius: 8px; font-size: 18px; cursor: pointer; line-height: 1;
+}
+.month-nav button:hover { border-color: var(--primary); color: var(--primary); }
+.summary { font-size: 15px; color: var(--muted); }
+.summary span { color: var(--text); font-weight: 700; font-size: 18px; margin-left: 4px; }
+.link { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; }
+.link:hover { color: var(--text); }
+.user { display: flex; align-items: center; gap: 12px; }
+.user-email { color: var(--muted); font-size: 13px; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.txn-table {
+  width: 100%; border-collapse: collapse; background: var(--card);
+  border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+.txn-table th, .txn-table td {
+  padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.txn-table th { background: #fafbfc; color: var(--muted); font-weight: 600; }
+.txn-table tr:last-child td { border-bottom: none; }
+.txn-table .num { text-align: right; }
+.txn-table .desc { color: var(--muted); max-width: 220px; word-break: break-word; }
+.txn-table input, .txn-table select {
+  padding: 6px 8px; font-size: 14px; border: 1px solid var(--border); border-radius: 6px; width: 100%;
+}
+.txn-table td .num input { text-align: right; }
+
+button.edit, button.del, button.save, button.cancel {
+  border: 1px solid var(--border); background: #fff; border-radius: 6px;
+  padding: 5px 10px; font-size: 13px; cursor: pointer; margin-right: 6px;
+}
+button.edit:hover { border-color: var(--primary); color: var(--primary); }
+button.del:hover { border-color: var(--danger); color: var(--danger); }
+button.save, .primary {
+  background: var(--primary); color: #fff; border: none;
+}
+button.save:hover, .primary:hover { background: var(--primary-d); }
+button.cancel:hover { border-color: var(--text); }
+
+.empty { text-align: center; color: var(--muted); padding: 24px; }
+
+/* 新增表单 */
+.add-form {
+  background: var(--card); padding: 16px 18px; border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05); margin-top: 16px;
+}
+.add-form h2 { margin: 0 0 12px; font-size: 16px; }
+.add-form .row { display: flex; gap: 10px; flex-wrap: wrap; }
+.add-form input, .add-form select {
+  padding: 9px 10px; font-size: 14px; border: 1px solid var(--border); border-radius: 8px;
+}
+.add-form #f_date { flex: 1 1 140px; }
+.add-form #f_category { flex: 1 1 110px; }
+.add-form #f_amount { flex: 1 1 120px; }
+.add-form #f_desc { flex: 2 1 180px; }
+.add-form button { flex: 0 0 auto; padding: 9px 20px; }
+
+@media (max-width: 560px) {
+  .txn-table .desc { display: none; }
+  .add-form .row { flex-direction: column; }
+  .add-form input, .add-form select, .add-form button { width: 100%; }
+}
