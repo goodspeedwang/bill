@@ -133,9 +133,14 @@ button.edit:hover, button.del:hover, button.save:hover, button.cancel:hover { ba
   .user { justify-content: space-between; }
   .user-email { max-width: none; }
 
-  .txn-table .desc { display: none; }
-  .txn-table th, .txn-table td { padding: 9px 8px; font-size: 13px; }
-  .txn-table input, .txn-table select { font-size: 16px; }
+  /* 小屏也保留说明列，压缩字号和内边距腾空间 */
+  .txn-table th, .txn-table td { padding: 8px 5px; font-size: 12px; }
+  .txn-table th { font-size: 12px; }
+  .txn-table th:first-child, .txn-table td:first-child { white-space: nowrap; }
+  .txn-table .desc { max-width: none; word-break: break-all; }
+  .txn-table .actions { gap: 0; }
+  button.edit, button.del, button.save, button.cancel { width: 26px; height: 26px; }
+  .txn-table input, .txn-table select { font-size: 16px; padding: 4px 6px; }
 
   .add-form { padding: 14px; }
   .add-form .row { flex-direction: column; align-items: stretch; }
