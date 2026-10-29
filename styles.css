@@ -10,6 +10,7 @@
 }
 
 * { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -114,7 +115,36 @@ button.cancel:hover { border-color: var(--text); }
 .add-form button { flex: 0 0 auto; padding: 9px 20px; }
 
 @media (max-width: 560px) {
+  .app { padding: 12px 12px 40px; }
+
+  /* 顶栏改为竖排，避免文字被挤成竖排 */
+  .topbar {
+    flex-direction: column; align-items: stretch; gap: 10px;
+    padding: 12px 14px;
+  }
+  .month-nav { justify-content: space-between; font-size: 16px; white-space: nowrap; }
+  .month-nav button { width: 30px; height: 30px; font-size: 16px; }
+  .summary { display: flex; align-items: baseline; justify-content: space-between; font-size: 14px; }
+  .summary span { font-size: 16px; }
+  .user { justify-content: space-between; }
+  .user-email { max-width: none; }
+
   .txn-table .desc { display: none; }
-  .add-form .row { flex-direction: column; }
-  .add-form input, .add-form select, .add-form button { width: 100%; }
+  .txn-table th, .txn-table td { padding: 9px 8px; font-size: 13px; }
+  .txn-table input, .txn-table select { font-size: 16px; }
+  button.edit, button.del, button.save, button.cancel { padding: 4px 8px; font-size: 12px; margin-right: 4px; }
+
+  .add-form { padding: 14px; }
+  .add-form .row { flex-direction: column; align-items: stretch; }
+  /* 竖排后清除 flex-basis，否则会变成输入框高度 */
+  .add-form #f_date,
+  .add-form #f_category,
+  .add-form #f_amount,
+  .add-form #f_desc { flex: 0 0 auto; width: 100%; }
+  /* 输入框字号不小于 16px，否则 iOS 聚焦时会自动放大页面 */
+  .add-form input, .add-form select, .add-form button,
+  .gate-box input, .gate-box button.primary { width: 100%; font-size: 16px; }
+  .add-form button { padding: 11px; }
+
+  .empty { padding: 20px 8px; font-size: 14px; }
 }
