@@ -1,8 +1,8 @@
 // ============================================================
 //  部署前请修改以下两项（anon key 本就是公开设计，放前端安全）
 // ============================================================
-const SUPABASE_URL = "https://hbrexhinhcqcczehtjyz.supabase.co/rest/v1/";   // 改成你的 Project URL
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhicmV4aGluaGNxY2N6ZWh0anl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyMjM4NDEsImV4cCI6MjEwODc5OTg0MX0.Wnj5jVlmy-KJP2UhMtbwAjaOhVihk0021X-YV_tgqbg";          // 改成你的 anon public key
+const SUPABASE_URL = "https://hbrexhinhcqcczehtjyz.supabase.co";   // 去掉 /rest/v1/
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhicmV4aGluaGNxY2N6ZWh0anl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyMjM4NDEsImV4cCI6MjEwODc5OTg0MX0.Wnj5jVlmy-KJP2UhMtbwAjaOhVihk0021X-YV_tgqbg";
 
 // ------------------------------------------------------------
 //  安全模型（方案 B：Supabase Auth 真账户 + RLS 守门）：
