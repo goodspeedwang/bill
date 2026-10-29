@@ -71,6 +71,8 @@ function showAuth() {
 function enterApp() {
   $("auth").classList.add("hidden");
   $("app").classList.remove("hidden");
+  $("userEmail").textContent = currentUser ? (currentUser.email || "") : "";
+  $("logoutBtn").onclick = signOut;
   if (!appReady) initApp();
 }
 function initApp() {

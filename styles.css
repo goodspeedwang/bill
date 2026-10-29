@@ -137,6 +137,9 @@ button.edit:hover, button.del:hover, button.save:hover, button.cancel:hover { ba
   /* 小屏也保留说明列，压缩字号和内边距腾空间 */
   .txn-table th, .txn-table td { padding: 8px 5px; font-size: 12px; }
   .txn-table th { font-size: 12px; }
+  /* 移动端隐藏“修改人”列，PC 端显示 */
+  .txn-table th:nth-child(5),
+  .txn-table td:nth-child(5) { display: none; }
   .txn-table th:first-child, .txn-table td:first-child { white-space: nowrap; }
   .txn-table .desc { max-width: none; word-break: break-all; }
   .txn-table .actions { gap: 0; }
