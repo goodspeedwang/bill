@@ -3,6 +3,12 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const CATEGORIES = ["餐饮", "交通", "购物", "居住", "娱乐", "医疗", "教育", "工资", "其他"];
 
+// 操作列图标（SVG，省空间且跨平台一致）
+const ICON_EDIT = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+const ICON_DEL  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>';
+const ICON_CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+const ICON_CLOSE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+
 const $ = (id) => document.getElementById(id);
 let viewYear, viewMonth; // viewMonth: 1-12
 let editingId = null;
@@ -43,7 +49,6 @@ async function signOut() {
   await sb.auth.signOut();
   showAuth();
 }
-$("logoutBtn").onclick = signOut;
 
 function showAuth() {
   $("app").classList.add("hidden");
@@ -56,9 +61,6 @@ function enterApp() {
 }
 function initApp() {
   appReady = true;
-  sb.auth.getUser().then(({ data }) => {
-    if (data.user) $("userEmail").textContent = data.user.email;
-  });
 
   const sel = $("f_category");
   CATEGORIES.forEach((c) => {
@@ -139,7 +141,7 @@ function renderRow(r) {
         `<option ${c === r.category ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></td>
       <td class="num"><input type="number" step="0.01" min="0.01" class="e_amount" value="${esc(r.amount)}"></td>
       <td><input type="text" class="e_desc" value="${esc(r.description)}"></td>
-      <td><button class="save primary">保存</button><button class="cancel">取消</button></td>`;
+      <td><button class="save" title="保存" aria-label="保存">${ICON_CHECK}</button><button class="cancel" title="取消" aria-label="取消">${ICON_CLOSE}</button></td>`;
     tr.querySelector(".save").onclick = () => onSave(r.id, tr);
     tr.querySelector(".cancel").onclick = () => { editingId = null; loadMonth(); };
   } else {
@@ -148,7 +150,7 @@ function renderRow(r) {
       <td>${esc(r.category)}</td>
       <td class="num">${Number(r.amount).toFixed(2)}</td>
       <td class="desc">${esc(r.description)}</td>
-      <td><button class="edit">编辑</button><button class="del">删除</button></td>`;
+      <td><button class="edit" title="编辑" aria-label="编辑">${ICON_EDIT}</button><button class="del" title="删除" aria-label="删除">${ICON_DEL}</button></td>`;
     tr.querySelector(".edit").onclick = () => { editingId = r.id; loadMonth(); };
     tr.querySelector(".del").onclick = () => onDelete(r.id);
   }

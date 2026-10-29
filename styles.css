@@ -85,16 +85,16 @@ body {
 .txn-table td .num input { text-align: right; }
 
 button.edit, button.del, button.save, button.cancel {
-  border: 1px solid var(--border); background: #fff; border-radius: 6px;
-  padding: 5px 10px; font-size: 13px; cursor: pointer; margin-right: 6px;
+  border: none; background: none; cursor: pointer;
+  width: 30px; height: 30px; padding: 0; font-size: 16px; line-height: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 6px; margin-right: 4px;
 }
-button.edit:hover { border-color: var(--primary); color: var(--primary); }
-button.del:hover { border-color: var(--danger); color: var(--danger); }
-button.save, .primary {
-  background: var(--primary); color: #fff; border: none;
-}
-button.save:hover, .primary:hover { background: var(--primary-d); }
-button.cancel:hover { border-color: var(--text); }
+button.edit { color: var(--primary); }
+button.del { color: var(--danger); }
+button.save { color: var(--primary); }
+button.cancel { color: var(--muted); }
+button.edit:hover, button.del:hover, button.save:hover, button.cancel:hover { background: rgba(0,0,0,.06); }
 
 .empty { text-align: center; color: var(--muted); padding: 24px; }
 
@@ -132,7 +132,6 @@ button.cancel:hover { border-color: var(--text); }
   .txn-table .desc { display: none; }
   .txn-table th, .txn-table td { padding: 9px 8px; font-size: 13px; }
   .txn-table input, .txn-table select { font-size: 16px; }
-  button.edit, button.del, button.save, button.cancel { padding: 4px 8px; font-size: 12px; margin-right: 4px; }
 
   .add-form { padding: 14px; }
   .add-form .row { flex-direction: column; align-items: stretch; }
