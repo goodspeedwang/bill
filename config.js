@@ -1,7 +1,7 @@
 // ============================================================
 //  部署前请修改以下两项（anon key 本就是公开设计，放前端安全）
 // ============================================================
-const SUPABASE_URL = "https://hbrexhinhcqcczehtjyz.supabase.co";
+const SUPABASE_URL = "https://hbrexhinhcqcczehtjyz.supabase.co"; //修正 Supabase URL 去掉多余的 /rest/v1/ 路径
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhicmV4aGluaGNxY2N6ZWh0anl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyMjM4NDEsImV4cCI6MjEwODc5OTg0MX0.Wnj5jVlmy-KJP2UhMtbwAjaOhVihk0021X-YV_tgqbg";
 
 // ------------------------------------------------------------
