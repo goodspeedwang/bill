@@ -28,6 +28,23 @@ function esc(s) {
   );
 }
 
+// 自定义确认弹窗，返回 Promise<boolean>
+function showConfirm(text) {
+  return new Promise((resolve) => {
+    const dlg = $("confirmDialog");
+    $("confirmText").textContent = text;
+    dlg.classList.remove("hidden");
+    const ok = $("confirmOk"), cancel = $("confirmCancel");
+    const done = (res) => {
+      dlg.classList.add("hidden");
+      ok.onclick = null; cancel.onclick = null;
+      resolve(res);
+    };
+    ok.onclick = () => done(true);
+    cancel.onclick = () => done(false);
+  });
+}
+
 // 距离今天多少天（以本地日期 00:00 计算）
 function daysAgo(dateStr) {
   const d = new Date(dateStr + "T00:00:00");
@@ -228,7 +245,7 @@ async function onDelete(r) {
     alert("三天前的数据不允许修改。");
     return;
   }
-  if (!confirm("确定删除这笔记录？")) return;
+  if (!(await showConfirm("确定删除这笔记录？"))) return;
   const { error } = await sb.from("transactions").delete().eq("id", r.id);
   if (error) { alert("删除失败：" + error.message); return; }
   loadMonth();

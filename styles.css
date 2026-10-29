@@ -78,6 +78,7 @@ body {
 .txn-table th { background: #fafbfc; color: var(--muted); font-weight: 600; }
 .txn-table tr:last-child td { border-bottom: none; }
 .txn-table .num { text-align: right; }
+.txn-table th:first-child, .txn-table td:first-child { width: 1%; white-space: nowrap; }
 .txn-table .desc { color: var(--muted); max-width: 220px; word-break: break-word; }
 .txn-table input, .txn-table select {
   padding: 6px 8px; font-size: 14px; border: 1px solid var(--border); border-radius: 6px; width: 100%;
@@ -109,7 +110,7 @@ button.edit:hover, button.del:hover, button.save:hover, button.cancel:hover { ba
   box-shadow: 0 1px 4px rgba(0,0,0,.05); margin-top: 16px;
 }
 .add-form h2 { margin: 0 0 12px; font-size: 16px; }
-.add-form .row { display: flex; gap: 10px; flex-wrap: wrap; }
+.add-form .row { display: flex; gap: 10px; flex-wrap: nowrap; }
 .add-form input, .add-form select {
   padding: 9px 10px; font-size: 14px; border: 1px solid var(--border); border-radius: 8px;
 }
@@ -131,7 +132,7 @@ button.edit:hover, button.del:hover, button.save:hover, button.cancel:hover { ba
   .month-nav button { width: 30px; height: 30px; font-size: 16px; }
   .summary { display: flex; align-items: baseline; justify-content: space-between; font-size: 14px; }
   .summary span { font-size: 16px; }
-  .user { justify-content: space-between; }
+  .user { display: none; }
   .user-email { max-width: none; }
 
   /* 小屏也保留说明列，压缩字号和内边距腾空间 */
@@ -140,7 +141,6 @@ button.edit:hover, button.del:hover, button.save:hover, button.cancel:hover { ba
   /* 移动端隐藏“修改人”列，PC 端显示 */
   .txn-table th:nth-child(5),
   .txn-table td:nth-child(5) { display: none; }
-  .txn-table th:first-child, .txn-table td:first-child { white-space: nowrap; }
   .txn-table .desc { max-width: none; word-break: break-all; }
   .txn-table .actions { gap: 0; }
   button.edit, button.del, button.save, button.cancel { width: 26px; height: 26px; }
@@ -160,3 +160,23 @@ button.edit:hover, button.del:hover, button.save:hover, button.cancel:hover { ba
 
   .empty { padding: 20px 8px; font-size: 14px; }
 }
+
+/* 删除确认弹窗 */
+.modal {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.4);
+}
+.modal-box {
+  background: var(--card); padding: 22px 22px 18px; border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.2); width: 280px; text-align: center;
+}
+.modal-text { margin: 0 0 18px; font-size: 15px; line-height: 1.5; }
+.modal-actions { display: flex; gap: 10px; justify-content: center; }
+.modal-btn {
+  flex: 1; padding: 9px 0; font-size: 14px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--border); background: #fff; color: var(--text);
+}
+.modal-btn:hover { background: #f2f3f5; }
+.modal-btn.danger { background: var(--danger); border-color: var(--danger); color: #fff; }
+.modal-btn.danger:hover { opacity: .9; background: var(--danger); }
