@@ -113,6 +113,7 @@ button.edit:hover, button.del:hover, button.save:hover, button.cancel:hover { ba
 .add-form .row { display: flex; gap: 10px; flex-wrap: nowrap; }
 .add-form input, .add-form select {
   padding: 9px 10px; font-size: 14px; border: 1px solid var(--border); border-radius: 8px;
+  min-width: 0;
 }
 .add-form #f_date { flex: 1 1 140px; }
 .add-form #f_category { flex: 1 1 110px; }
